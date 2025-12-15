@@ -138,3 +138,12 @@ INSERT INTO facturadetalle VALUES ('0000000003', 2,2,3.50);
 SELECT * FROM facturadetalle;
 
 
+create table proveedor(
+    ruc char (13),
+    nombre VARCHAR (100),
+    contacto VARCHAR (100),
+    email VARCHAR (100)
+);
+
+
+insert into proveedor values ()
