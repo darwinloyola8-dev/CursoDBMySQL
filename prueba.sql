@@ -14,6 +14,10 @@ CREATE TABLE medicinas (
     stock INT,
     fechacaducidad DATETIME
 );
+-- atributo nombre_medicina unico
+ alter Table medicinas
+ add CONSTRAINT medicina_nombre_uq
+ unique (nombre);
 
 -- Insertar medicinas
 INSERT INTO medicinas VALUES (1, 'Paracetamol', 'GEN', 1.50, 50, '2027-01-01 00:00:00');
@@ -39,6 +43,7 @@ INSERT INTO medicinas VALUES (20, 'Cipro',     'COM', 5.75, 28, '2027-04-01 00:0
 
 SELECT * FROM medicinas;
 
+
 -- Tabla clientes
 CREATE TABLE clientes (
     Cedula CHAR(10) PRIMARY KEY,
@@ -47,7 +52,10 @@ CREATE TABLE clientes (
     tipo CHAR(3),
     email VARCHAR(100)
 );
-
+-- atributo correo unico
+ alter Table clientes
+ add CONSTRAINT cliente_email_uq
+ unique (email);
 -- Insertar clientes
 INSERT INTO clientes VALUES ('1716410210','Alisson Chiguano', '2004-05-24', 'JUR', 'alison.chiguano@gmail.com');
 INSERT INTO clientes VALUES ('1710982348','Roger Tallana', '2001-02-04', 'NAT', 'roger.tallana@gmail.com');
@@ -205,5 +213,8 @@ INSERT INTO proveedor_medicinas VALUES ('1700000000002', 2, 0.10, 800, 7);
 INSERT INTO proveedor_medicinas VALUES ('1700000000002', 3, 0.30, 250, 7);
 
 SELECT * FROM proveedor_medicinas;
+
+
+
 
 
