@@ -1,7 +1,5 @@
 -- Crear base de datos
 
-
-
 CREATE DATABASE saludtotal;
 USE saludtotal;
 
@@ -9,15 +7,27 @@ USE saludtotal;
 CREATE TABLE medicinas (
     id INT PRIMARY KEY,
     nombre VARCHAR(100),
-    tipo CHAR(3),   -- GEN = genérico, COM = comercial
+    tipo CHAR(3)  DEFAULT 'GEN',
     precio DECIMAL(15,2),
     stock INT,
     fechacaducidad DATETIME
 );
--- atributo nombre_medicina unico
+-- atributo nombre_medicina unico (UNIQUE)
  alter Table medicinas
  add CONSTRAINT medicina_nombre_uq
  unique (nombre);
+
+
+ alter Table medicinas
+ MODIFY COLUMN nombre varchar (100) NOT NULL;  
+
+
+ alter table medicinas 
+ add CONSTRAINT madicinas_tipo_val
+ check (
+    tipo in ('GEN', 'COM')
+ );
+
 
 -- Insertar medicinas
 INSERT INTO medicinas VALUES (1, 'Paracetamol', 'GEN', 1.50, 50, '2027-01-01 00:00:00');
@@ -40,6 +50,8 @@ INSERT INTO medicinas VALUES (17, 'Lantus',    'COM', 35.00, 10, '2027-09-01 00:
 INSERT INTO medicinas VALUES (18, 'Amoxil',    'COM', 2.50, 60, '2026-11-01 00:00:00');
 INSERT INTO medicinas VALUES (19, 'Zithromax', 'COM', 6.80, 32, '2027-03-01 00:00:00');
 INSERT INTO medicinas VALUES (20, 'Cipro',     'COM', 5.75, 28, '2027-04-01 00:00:00');
+INSERT INTO medicinas (id, nombre, precio, stock, fechacaducidad) VALUES (21, 'holamundo', 5.6,10,'2023-04-01 00:00:00'); 
+
 
 SELECT * FROM medicinas;
 
@@ -49,20 +61,20 @@ CREATE TABLE clientes (
     Cedula CHAR(10) PRIMARY KEY,
     nombre VARCHAR(100),
     FechaNacimiento DATE,
-    tipo CHAR(3),
+    tipo CHAR(3) DEFAULT 'OCA',
     email VARCHAR(100)
 );
--- atributo correo unico
+-- atributo correo unico (UNIQUE)
  alter Table clientes
  add CONSTRAINT cliente_email_uq
  unique (email);
 -- Insertar clientes
-INSERT INTO clientes VALUES ('1716410210','Alisson Chiguano', '2004-05-24', 'JUR', 'alison.chiguano@gmail.com');
-INSERT INTO clientes VALUES ('1710982348','Roger Tallana', '2001-02-04', 'NAT', 'roger.tallana@gmail.com');
-INSERT INTO clientes VALUES ('1716938210','Erick Analuisa', '2005-06-02', 'JUR', 'erick.analuisa@gmail.com');
-INSERT INTO clientes VALUES ('1716410320','Cristian Benites', '1997-05-24', 'JUR', 'cristian.benites@gmail.com');
-INSERT INTO clientes VALUES ('1755582348','Antonio Valencia', '1991-02-04', 'NAT', 'antonio.valencia@gmail.com');
-INSERT INTO clientes VALUES ('1716238210','Enner Valencia', '2001-02-02', 'JUR', 'enner.valencia@gmail.com');
+INSERT INTO clientes VALUES ('1716410210','Alisson Chiguano', '2004-05-24', 'OCA', 'alison.chiguano@gmail.com');
+INSERT INTO clientes VALUES ('1710982348','Roger Tallana', '2001-02-04', 'OCA', 'roger.tallana@gmail.com');
+INSERT INTO clientes VALUES ('1716938210','Erick Analuisa', '2005-06-02', 'FRE', 'erick.analuisa@gmail.com');
+INSERT INTO clientes VALUES ('1716410320','Cristian Benites', '1997-05-24', 'FRE', 'cristian.benites@gmail.com');
+INSERT INTO clientes VALUES ('1755582348','Antonio Valencia', '1991-02-04', 'FRE', 'antonio.valencia@gmail.com');
+INSERT INTO clientes VALUES ('1716238210','Enner Valencia', '2001-02-02', 'OCA', 'enner.valencia@gmail.com');
 
 SELECT * FROM clientes;
 
