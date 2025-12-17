@@ -103,3 +103,10 @@ WHERE
     AND
     nombre like 'A%'
 
+SELECT 
+    id,
+    nombre,
+    precio,
+    tipo
+FROM medicinas
+WHERE precio <= 10;
