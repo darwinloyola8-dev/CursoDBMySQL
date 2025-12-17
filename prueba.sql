@@ -2,6 +2,7 @@
 
 CREATE DATABASE saludtotal;
 USE saludtotal;
+desc medicinas
 
 -- Tabla medicinas
 CREATE TABLE medicinas (
@@ -56,6 +57,7 @@ INSERT INTO medicinas (id, nombre, precio, stock, fechacaducidad) VALUES (21, 'h
 SELECT * FROM medicinas;
 
 
+
 -- Tabla clientes
 CREATE TABLE clientes (
     Cedula CHAR(10) PRIMARY KEY,
@@ -64,19 +66,23 @@ CREATE TABLE clientes (
     tipo CHAR(3) DEFAULT 'OCA',
     email VARCHAR(100)
 );
+
+alter table clientes
+add direccion varchar (100);
 -- atributo correo unico (UNIQUE)
  alter Table clientes
  add CONSTRAINT cliente_email_uq
  unique (email);
 -- Insertar clientes
-INSERT INTO clientes VALUES ('1716410210','Alisson Chiguano', '2004-05-24', 'OCA', 'alison.chiguano@gmail.com');
-INSERT INTO clientes VALUES ('1710982348','Roger Tallana', '2001-02-04', 'OCA', 'roger.tallana@gmail.com');
-INSERT INTO clientes VALUES ('1716938210','Erick Analuisa', '2005-06-02', 'FRE', 'erick.analuisa@gmail.com');
-INSERT INTO clientes VALUES ('1716410320','Cristian Benites', '1997-05-24', 'FRE', 'cristian.benites@gmail.com');
-INSERT INTO clientes VALUES ('1755582348','Antonio Valencia', '1991-02-04', 'FRE', 'antonio.valencia@gmail.com');
-INSERT INTO clientes VALUES ('1716238210','Enner Valencia', '2001-02-02', 'OCA', 'enner.valencia@gmail.com');
+INSERT INTO clientes VALUES ('1716410210','Alisson Chiguano', '2004-05-24', 'OCA', 'alison.chiguano@gmail.com', 'Quito');
+INSERT INTO clientes VALUES ('1710982348','Roger Tallana', '2001-02-04', 'OCA', 'roger.tallana@gmail.com', 'Quito');
+INSERT INTO clientes VALUES ('1716938210','Erick Analuisa', '2005-06-02', 'FRE', 'erick.analuisa@gmail.com', 'Quito');
+INSERT INTO clientes VALUES ('1716410320','Cristian Benites', '1997-05-24', 'FRE', 'cristian.benites@gmail.com', 'Quito');
+INSERT INTO clientes VALUES ('1755582348','Antonio Valencia', '1991-02-04', 'FRE', 'antonio.valencia@gmail.com', 'Quito');
+INSERT INTO clientes VALUES ('1716238210','Enner Valencia', '2001-02-02', 'OCA', 'enner.valencia@gmail.com', 'Quito');
 
 SELECT * FROM clientes;
+
 
 -- Tabla clientesFrecuentes
 CREATE TABLE clientesFrecuentes (
