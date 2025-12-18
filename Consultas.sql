@@ -207,3 +207,43 @@ SELECT
 FROM
     equivalencia;
 
+
+
+--Uso de Join
+
+
+-- Caso: Listado de pacientes del plan de clientes frecuente presente el precio final de la medicina
+--       junto con el precio sin descuento 
+
+SELECT
+    clientesfrecuentes.Cliente_Cedula AS cedula,
+    clientes.nombre AS paciente,
+    clientesfrecuentes.id_medicinas AS id_medicinas,
+    medicinas.nombre AS nombre_medicina,
+    medicinas.precio AS precio_sin_descuento,
+    clientesfrecuentes.descuento AS descuento_porcentaje,
+    (medicinas.precio * (1 - clientesfrecuentes.descuento)) AS precio_final
+FROM clientesfrecuentes
+JOIN clientes
+    ON clientes.cedula = clientesfrecuentes.Cliente_Cedula
+JOIN medicinas
+    ON medicinas.id = clientesfrecuentes.id_medicinas;
+
+
+-- Caso: las medicinas comerciales pueden ser reemplazadas por sus correspondientes genericas.
+--       Elaborar un listado que compare el precio de la medicina comercial con su equivalente generico
+
+
+SELECT
+    medicinas.nombre AS Medicina_comercial,
+    medicinas.precio AS Precio_comercial,
+    medicinas_generica.nombre AS Medicina_generica,
+    medicinas_generica.precio AS Precio_generico,
+    (medicinas.precio - medicinas_generica.precio) AS Ahorro
+FROM equivalencia
+JOIN medicinas
+    ON medicinas.id = equivalencia.id_comercial
+JOIN medicinas AS medicinas_generica
+    ON medicinas_generica.id = equivalencia.id_generico;
+
+
