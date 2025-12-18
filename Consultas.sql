@@ -183,24 +183,27 @@ FROM
 --       Elaborar un listado que compare el precio de la medicina comercial con su equivalente generico
 
 SELECT
-    
-
     (SELECT nombre 
      FROM medicinas 
-     WHERE id = id_comercial) AS medicina_comercial,
+     WHERE id = id_comercial) AS Medicina_comercial,
 
     (SELECT precio 
      FROM medicinas 
-     WHERE id = id_comercial) AS precio_comercial,
+     WHERE id = id_comercial) AS Precio_comercial,
 
     (SELECT nombre 
      FROM medicinas 
-     WHERE id = id_generico) AS medicina_generica,
+     WHERE id = id_generico) AS Medicina_generica,
 
     (SELECT precio 
      FROM medicinas 
-     WHERE id = id_generico) AS precio_generico
+     WHERE id = id_generico) AS Precio_generico,
 
+    (
+        (SELECT precio FROM medicinas WHERE id = id_comercial)
+        -
+        (SELECT precio FROM medicinas WHERE id = id_generico)
+    ) AS Ahorro
 FROM
     equivalencia;
 
