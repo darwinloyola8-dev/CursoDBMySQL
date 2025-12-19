@@ -2,6 +2,7 @@
 
 use saludtotal;
 
+TRUNCATE TABLE clientesFrecuentes;
 INSERT INTO clientes (Cedula, nombre, FechaNacimiento, tipo, email, direccion) VALUES ('3931231135', 'Miguel Rivera', '2002-07-03', 'FRE', 'miguel.rivera01@outlook.com', 'Calle Olmedo N° 1602 y Av. Calle Vargas, Cayambe - Esmeraldas');
 INSERT INTO clientes (Cedula, nombre, FechaNacimiento, tipo, email, direccion) VALUES ('6579469497', 'Natalia Montoya', '2009-03-20', 'OCA', 'natalia.montoya02@gmail.com', 'Av. Bolívar N° 8230 esq. Av. Amazonas, Chillogallo - Santo Domingo');
 INSERT INTO clientes (Cedula, nombre, FechaNacimiento, tipo, email, direccion) VALUES ('0295664745', 'Beatriz Valdez', '2005-09-07', 'OCA', 'beatriz.valdez03@outlook.com', 'Av. De la República N° 3842 esq. Av. Machala, Brisa del Pacífico - Quito');

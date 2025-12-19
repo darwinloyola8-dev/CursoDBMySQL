@@ -247,3 +247,108 @@ JOIN medicinas AS medicinas_generica
     ON medicinas_generica.id = equivalencia.id_generico;
 
 
+-- Crear todas las combinaciones posibles entre la tacla cientes y clientesfrecuentes
+
+
+SELECT *
+from 
+    clientes,
+    clientesfrecuentes
+WHERE 
+    clientes.Cedula = clientesfrecuentes.Cliente_Cedula;
+
+
+SELECT *
+from 
+    medicinas,
+    clientesfrecuentes
+WHERE 
+    medicinas.id = clientesfrecuentes.id_medicinas;
+
+SELECT 
+    c.cedula,
+    c.nombre,
+    m.nombre,
+    cf.descuento,
+    m.tipo
+from 
+    clientes c,
+    medicinas m,
+    clientesfrecuentes cf
+WHERE 
+     m.id = cf.id_medicinas
+    and c.Cedula = cf.Cliente_Cedula
+    and m.tipo = 'COM'
+
+SELECT * from clientesfrecuentes;
+
+
+SELECT
+    medicinas.nombre AS Medicina_comercial,
+    medicinas.precio AS Precio_comercial,
+    medicinas_generica.nombre AS Medicina_generica,
+    medicinas_generica.precio AS Precio_generico,
+    (medicinas.precio - medicinas_generica.precio) AS Ahorro
+FROM equivalencia
+JOIN medicinas
+    ON medicinas.id = equivalencia.id_comercial
+JOIN medicinas AS medicinas_generica
+    ON medicinas_generica.id = equivalencia.id_generico;
+
+
+
+--Caso: Presentar una factura y sus detalles, que incluya,  
+--Los datos de la farmacia: nombre, ruc, ...  
+--Los del cliente: ...  
+--Los datos de la cabecera de la factura: numero, fecha  
+--Las medicinas vendidas: nombre medicina, id, cant, precio, subtotal  
+--Los datos al pie de la factura: Total y la forma de pago
+
+-- 1. Carga de datos en facturas cabecera y detalles usar los datos ya existentes
+-- 2. Select para cabera de factura
+-- 3. Select para los detalles de factura
+-- 4. Select para el pie factura.
+
+
+
+SELECT 
+    'FARMACIA SALUD TOTAL' titulo,
+    razonsocial nombre_farmacia,
+    ruc,
+    direccion,
+    telefono,
+    email
+FROM empresa;
+
+
+SELECT 
+    c.nombre nombre_cliente,
+    c.cedula,
+    c.direccion,
+    c.telefono,
+    c.correo,
+    f.facturanumero numero_factura,
+    f.fecha
+FROM facturas f
+JOIN clientes c ON f.cedula = c.cedula
+WHERE f.facturanumero = '0000000002';
+ 
+
+SELECT 
+    m.nombre nombre_medicina,
+    m.id id_medicina,
+    fd.cantidad,
+    fd.precio precio_unitario,
+    (fd.cantidad * fd.precio) subtotal
+FROM facturadetalle fd
+JOIN medicinas m ON fd.medicamento_id = m.id
+WHERE fd.facturanumero = '0000000001';
+
+
+
+SELECT 
+   SUM (fd.cantidad * fd.precio) subtotal,
+   'Efectivo' forma_pago
+FROM facturadetalle fd
+JOIN medicinas m ON fd.medicamento_id = m.id
+WHERE fd.facturanumero = '0000000001';
