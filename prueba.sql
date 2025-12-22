@@ -7,7 +7,7 @@ USE saludtotal;
 -- Tabla medicinas
 CREATE TABLE medicinas (
     id INT PRIMARY KEY,
-    nombre VARCHAR(100),
+    nombre VARCHAR(100) not NULL,
     tipo CHAR(3)  DEFAULT 'GEN',
     precio DECIMAL(15,2),
     stock INT,
@@ -17,10 +17,6 @@ CREATE TABLE medicinas (
  alter Table medicinas
  add CONSTRAINT medicina_nombre_uq
  unique (nombre);
-
-
- alter Table medicinas
- MODIFY COLUMN nombre varchar (100) NOT NULL;  
 
 
  alter table medicinas 
@@ -141,7 +137,6 @@ CREATE TABLE empresa(
 INSERT INTO empresa VALUES('1756209837001', 'Salud Total', 'Av. 10 de agosto s/a', '0980596412','alissonchiguano@gmail.com');
 
 SELECT * FROM empresa;
-
 
 
 -- Tabla facturas

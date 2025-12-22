@@ -1,6 +1,7 @@
 -- Inserts para 100 medicinas (tipo solo COM y GEN), comenzando en id=22
 use saludtotal;
 
+
 INSERT INTO medicinas (id, nombre, tipo, precio, stock, fechacaducidad) VALUES (22, 'Aspirina Granulado', 'GEN', 5.53, 399, '2027-11-07 13:13:46');
 INSERT INTO medicinas (id, nombre, tipo, precio, stock, fechacaducidad) VALUES (23, 'Bromhexina Pomada 2%', 'GEN', 27.24, 337, '2027-07-10 13:13:46');
 INSERT INTO medicinas (id, nombre, tipo, precio, stock, fechacaducidad) VALUES (24, 'Naproxeno Inyectable 500 mg', 'GEN', 37.94, 268, '2028-02-05 13:13:46');
