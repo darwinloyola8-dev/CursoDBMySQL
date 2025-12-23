@@ -399,3 +399,176 @@ SELECT
 *
 from clientesfrecuentes cf
 left join medicinas m on m.id = cf.id_medicinas;
+
+
+--Caso: Lista ordenada
+--ascendente
+SELECT
+*
+from clientes
+ORDER BY FechaNacimiento;
+--descendente
+SELECT
+*
+from clientes
+ORDER BY FechaNacimiento DESC;
+
+SELECT 
+ nombre,
+ FechaNacimiento
+from 
+    clientes
+ORDER BY 
+    FechaNacimiento DESC 
+LIMIT 1;
+
+--Caso: Conocer las 5 medicinas mas caras de la farmacia
+
+SELECT 
+    nombre, 
+    tipo, 
+    precio
+FROM medicinas
+ORDER BY precio DESC
+LIMIT 5;
+
+
+--Caso: Conocer las 5 medicinas mas barata de la farmacia
+
+SELECT 
+    nombre, 
+    tipo, 
+    precio
+FROM medicinas
+ORDER BY precio
+LIMIT 5;
+
+--Caso: la medicina comercial mas barata
+
+SELECT 
+    nombre, 
+    precio
+FROM medicinas
+WHERE tipo = 'COM'
+ORDER BY precio 
+LIMIT 1;
+
+
+--Caso: la medicina generica mas cara
+
+SELECT id, nombre, precio
+FROM medicinas
+WHERE tipo = 'GEN'
+ORDER BY precio DESC
+LIMIT 1;
+
+--Caso: las 5 medicinas comerciales con el menor descuento
+
+SELECT DISTINCT
+    m.id,
+    m.nombre,
+    m.precio,
+    cf.descuento
+FROM clientesFrecuentes cf
+JOIN medicinas m 
+    ON m.id = cf.id_medicinas
+WHERE m.tipo = 'COM'
+  AND cf.descuento IS NOT NULL
+ORDER BY cf.descuento DESC
+LIMIT 5;
+
+SELECT * from  clientesfrecuentes WHERE id_medicinas = 39;
+
+insert into clientesfrecuentes  VALUES('7120942169',0.50,'Diabetes','MEN', 39)
+
+SELECT * from medicinas
+WHERE nombre like 'paracetamol%'
+
+
+SELECT
+    id,
+    nombre,
+    descuento
+from clientesfrecuentes
+WHERE id in 
+(  
+    SELECT 
+        id
+    from clientesfrecuentes
+    JOIN medicinas on id = id_medicinas
+    WHERE tipo = 'COM'
+    ORDER BY descuento 
+);
+
+
+--Caso: Agrupamientos
+
+SELECT 
+tipo,
+COUNT(*) as numero 
+ FROM clientes
+ GROUP BY 
+ tipo;
+
+SELECT 
+id,
+nombre,
+precio,
+stock,
+precio * stock
+from medicinas;
+
+SELECT 
+tipo, SUM(precio * stock) As Suma
+from medicinas 
+GROUP BY tipo;
+
+--Caso: facturas detalle. Cual es valor monetario por medicina vendida
+
+SELECT
+    medicamento_id,
+    cantidad,
+    precio,
+    cantidad * precio AS subtotal
+FROM facturadetalle
+ORDER BY medicamento_id;
+
+
+SELECT
+    fd.medicamento_id,
+    SUM(fd.cantidad * fd.precio) AS total_vendido
+FROM facturadetalle fd
+join medicinas m on m.id = fd.medicamento_id
+GROUP BY fd.medicamento_id
+ORDER BY fd.medicamento_id;
+
+
+SELECT
+    fd.medicamento_id,
+    m.nombre AS nombre_medicamento,
+    fd.cantidad,
+    fd.precio,
+    fd.cantidad * fd.precio AS subtotal
+FROM facturadetalle fd
+JOIN medicinas m
+    ON m.id = fd.medicamento_id
+ORDER BY fd.medicamento_id;
+
+
+--Caso: Encontrar el mejor cliente 
+
+SELECT
+    c.Cedula,
+    c.nombre,
+    SUM(fd.cantidad * fd.precio) AS total_comprado
+FROM clientes c
+JOIN facturas f
+    ON c.Cedula = f.cedula
+JOIN facturadetalle fd
+    ON f.facturanumero = fd.facturanumero
+GROUP BY
+    c.Cedula,
+    c.nombre
+ORDER BY
+    total_comprado DESC
+LIMIT 1;
