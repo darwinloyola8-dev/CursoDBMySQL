@@ -352,3 +352,50 @@ SELECT
 FROM facturadetalle fd
 JOIN medicinas m ON fd.medicamento_id = m.id
 WHERE fd.facturanumero = '0000000001';
+
+
+
+SELECT
+    c.cedula,
+    c.nombre,
+    m.nombre,
+    cf.descuento,
+    m.tipo
+FROM
+    clientesFrecuentes cf
+JOIN clientes c ON c.cedula = cf.Cliente_Cedula
+JOIN medicinas m ON m.id = cf.id_medicinas
+WHERE
+    m.tipo = 'COM';
+SELECT 
+    id,
+    nombre,
+    precio
+from medicinas
+WHERE not precio > 5;
+        
+
+
+--- Consultar medicinas plan  clientes frecuentes
+
+SELECT COUNT (*) FROM clientesfrecuentes;
+SELECT COUNT (*) FROM medicinas;
+
+SELECT
+*
+from medicinas
+WHERE id not in 
+(
+    SELECT id_medicinas from clientesfrecuentes
+);
+
+SELECT
+*
+from medicinas m
+join clientesfrecuentes cf on m.id = cf.id_medicinas;
+
+
+SELECT
+*
+from clientesfrecuentes cf
+left join medicinas m on m.id = cf.id_medicinas;
