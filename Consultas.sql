@@ -473,7 +473,7 @@ FROM clientesFrecuentes cf
 JOIN medicinas m 
     ON m.id = cf.id_medicinas
 WHERE m.tipo = 'COM'
-  AND cf.descuento IS NOT NULL
+  AND cf.descuento IS  NULL
 ORDER BY cf.descuento DESC
 LIMIT 5;
 
@@ -572,3 +572,87 @@ GROUP BY
 ORDER BY
     total_comprado DESC
 LIMIT 1;
+
+--Caso: Proyeccion de la venta total del stock, tomando en cuenta 
+--      el descuento para las medicinas en el plan clientesfrecuentes
+
+create VIEW v_proyeccion_ventas
+AS
+SELECT 
+    cf.id_medicinas AS medicina_id,
+    m.nombre,
+    m.precio,
+    m.stock,
+    cf.descuento,
+    m.precio * (1-cf.descuento) AS nuevo_precio
+FROM clientesFrecuentes cf
+JOIN medicinas m 
+    ON m.id = cf.id_medicinas
+
+UNION
+
+SELECT 
+    m.id AS medicina_id,
+    m.nombre,
+    m.precio,
+    m.stock,
+    0 AS descuento,
+    m.precio AS nuevo_precio
+FROM medicinas m
+LEFT JOIN clientesFrecuentes cf
+    ON m.id = cf.id_medicinas
+WHERE cf.descuento IS NULL
+;
+
+SELECT 
+   sum(nuevo_precio*stock) AS Suma
+FROM
+    v_proyeccion_ventas;
+
+
+
+SELECT @@lc_time_names;
+
+SET lc_time_names = 'es_ES';
+
+SELECT DAYNAME('2025-12-24')
+
+
+--Caso: Averiguar que medicinas vencen en el proximo mes
+
+SELECT 
+  id, nombre, tipo, precio, stock, DATE(fechacaducidad) AS fecha_vencimiento
+FROM medicinas
+WHERE DATE(fechacaducidad) < CURDATE()
+ORDER BY fechacaducidad;
+
+
+
+SELECT 
+  DATE_FORMAT(fechacaducidad, '%Y-%m') AS mes,
+  COUNT(*) AS total_medicinas
+FROM medicinas
+GROUP BY DATE_FORMAT(fechacaducidad, '%Y-%m')
+ORDER BY mes;
+
+
+
+SELECT 
+  id, nombre, tipo, precio, stock, DATE(fechacaducidad) AS fecha_vencimiento
+FROM medicinas
+WHERE DATE(fechacaducidad) >= DATE_ADD(LAST_DAY(CURDATE()), INTERVAL 1 DAY)
+  AND DATE(fechacaducidad) <= LAST_DAY(DATE_ADD(CURDATE(), INTERVAL 1 MONTH))
+
+UNION
+
+SELECT 
+  id, nombre, tipo, precio, stock, DATE(fechacaducidad) AS fecha_vencimiento
+FROM medicinas
+WHERE DATE(fechacaducidad) >= CURDATE()
+  AND DATE(fechacaducidad) < DATE_ADD(CURDATE(), INTERVAL 3 MONTH)
+
+ORDER BY fecha_vencimiento;
+
+
+
+UPDATE medicinas SET fechacaducidad = '2026-03-23 00:00:00' WHERE id =8

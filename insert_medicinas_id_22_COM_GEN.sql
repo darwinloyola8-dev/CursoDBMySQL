@@ -2,7 +2,6 @@
 use saludtotal;
 
 
-INSERT INTO medicinas (id, nombre, tipo, precio, stock, fechacaducidad) VALUES (22, 'Aspirina Granulado', 'GEN', 5.53, 399, '2027-11-07 13:13:46');
 INSERT INTO medicinas (id, nombre, tipo, precio, stock, fechacaducidad) VALUES (23, 'Bromhexina Pomada 2%', 'GEN', 27.24, 337, '2027-07-10 13:13:46');
 INSERT INTO medicinas (id, nombre, tipo, precio, stock, fechacaducidad) VALUES (24, 'Naproxeno Inyectable 500 mg', 'GEN', 37.94, 268, '2028-02-05 13:13:46');
 INSERT INTO medicinas (id, nombre, tipo, precio, stock, fechacaducidad) VALUES (25, 'Pantoprazol Jarabe', 'COM', 29.09, 373, '2027-04-11 13:13:46');
@@ -102,6 +101,8 @@ INSERT INTO medicinas (id, nombre, tipo, precio, stock, fechacaducidad) VALUES (
 INSERT INTO medicinas (id, nombre, tipo, precio, stock, fechacaducidad) VALUES (119, 'Nitrofurantoína 500 mg Tabletas', 'COM', 36.28, 185, '2028-09-02 13:13:46');
 INSERT INTO medicinas (id, nombre, tipo, precio, stock, fechacaducidad) VALUES (120, 'Ketoconazol Crema 1%', 'GEN', 19.73, 332, '2027-06-10 13:13:46');
 INSERT INTO medicinas (id, nombre, tipo, precio, stock, fechacaducidad) VALUES (121, 'Terbinafina Óvulos', 'COM', 33.67, 68, '2027-10-08 13:13:46');
-
+INSERT INTO medicinas (id, nombre, tipo, precio, stock, fechacaducidad) VALUES (122, 'Ter', 'COM', 33.67, 68, '2026-01-08 13:13:46');
+INSERT INTO medicinas (id, nombre, tipo, precio, stock, fechacaducidad) VALUES (123, 'si', 'COM', 33.67, 68, '2026-02-08 13:13:46');
+INSERT INTO medicinas (id, nombre, tipo, precio, stock, fechacaducidad) VALUES (124, 'No', 'COM', 33.67, 68, '2026-03-08 13:13:46');
 
 SELECT * FROM medicinas;
