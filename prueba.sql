@@ -260,7 +260,7 @@ CREATE TABLE proveedor (
 );
 
 
--- DATOS DE PROVEEDORES
+-- DATOS DE PROVEEDOR
 INSERT INTO proveedor VALUES ('1700000000001', 'Bayer Ecuador', 'Luis Mayorga', 'mayorga@bayer.com');
 INSERT INTO proveedor VALUES ('1700000000002', 'HealthCom', 'Andres Zotoz', 'soto@health.com');
 
@@ -301,6 +301,34 @@ INSERT INTO proveedor_medicinas VALUES ('1700000000002', 3, 0.30, 250, 7);
 SELECT * FROM proveedor_medicinas;
 
 
+-- ======================
+-- TABLA PROVEDORES
+-- ======================
+CREATE TABLE proveedores (
+    id INT PRIMARY KEY,
+    nombre VARCHAR(100),
+    telefono VARCHAR(20),
+    email VARCHAR(100)
+);
+INSERT INTO proveedores VALUES
+(1,'Distribuidora FarmaPlus','0991111111','ventas@farmaplus.com'),
+(2,'Laboratorios Andinos','0992222222','contacto@andinos.com');
 
+CREATE TABLE compras (
+    compranumero CHAR(10) PRIMARY KEY,
+    fecha DATE,
+    proveedor_id INT,
+    FOREIGN KEY (proveedor_id) REFERENCES proveedores(id)
+);
 
+CREATE TABLE compradetalle (
+    compranumero CHAR(10),
+    medicamento_id INT,
+    cantidad INT,
+    costo_unitario DECIMAL(15,2),
+    PRIMARY KEY (compranumero, medicamento_id),
+    FOREIGN KEY (compranumero) REFERENCES compras(compranumero),
+    FOREIGN KEY (medicamento_id) REFERENCES medicinas(id)
+);
 
+use saludtotal;

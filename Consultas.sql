@@ -653,6 +653,105 @@ WHERE DATE(fechacaducidad) >= CURDATE()
 
 ORDER BY fecha_vencimiento;
 
-
-
 UPDATE medicinas SET fechacaducidad = '2026-03-23 00:00:00' WHERE id =8
+
+
+--VISTA MOVIMIENTOS DE VENTAS
+
+CREATE OR REPLACE VIEW v_mov_ventas AS
+SELECT
+    f.fechafactura AS fecha,
+    fd.medicamento_id,
+    m.nombre AS medicina,
+    f.facturanumero AS documento,
+    'VENTA' AS tipo_mov,
+    m.stock AS stock_actual,
+    fd.cantidad AS salida
+FROM facturadetalle fd
+JOIN facturas f
+    ON f.facturanumero = fd.facturanumero
+JOIN medicinas m
+    ON m.id = fd.medicamento_id;
+
+
+--CONSULTA KARDEX / SALDO
+--(SOLO VENTAS)
+
+SELECT
+    fecha,
+    medicamento_id,
+    tipo_mov,
+    stock_actual,
+    0 AS entrada,
+    salida,
+
+    stock_actual
+    - SUM(salida) OVER (
+        PARTITION BY medicamento_id
+        ORDER BY fecha
+        ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW
+      ) AS saldo
+FROM v_mov_ventas
+WHERE medicamento_id = 1
+ORDER BY fecha;
+
+SELECT 
+    tipo,
+    COUNT (*)
+    from 
+    medicinas
+    WHERE
+    precio < 5
+    GROUP BY
+    tipo;
+
+SELECT * FROM medicinas WHERE precio < 5;
+
+
+
+SELECT
+    id,
+    nombre,
+    stock,
+    20 AS stock_minimo,
+    CASE
+        WHEN stock <= 20 THEN 'REABASTECER'
+        ELSE 'OK'
+    END AS estado
+FROM medicinas;
+
+use saludtotal;
+SELECT COUNT (*) from medicinas;
+--Caso:stock minimo
+CREATE table control_stock(
+    id_medicinas INT,
+    stock_minimo int
+);
+
+alter TABLE control_stock
+add PRIMARY KEY (id_medicinas);
+
+alter TABLE control_stock
+add CONSTRAINT control_stock_id_medicinas_fk
+Foreign Key (id_medicinas)
+REFERENCES medicinas(id);
+
+insert into control_stock
+VALUES (36,6);
+
+SELECT 
+    fecha,
+    medicamento_id,
+    medicinas,
+    tipo_mov,
+    cantidad,
+    saldo
+FROM
+v_kartex K
+join control_stock cs on cs.id_medicina = k.medicamento_id
+WHERE  
+medicamento_id = 36
+and saldo < stock_minimo;
+
+
+
